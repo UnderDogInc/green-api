@@ -3,6 +3,7 @@ export type GreenApiMethod =
   | 'qr'
   | 'getAccountSettings'
   | 'getChats'
+  | 'checkAccount'
   | 'getChatHistory'
   | 'getContactInfo'
   | 'receiveNotification'

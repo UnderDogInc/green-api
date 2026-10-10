@@ -38,6 +38,11 @@ export type SendMessageResponse = {
   idMessage: string
 }
 
+export type TelegramAccountLookup = {
+  exist: boolean
+  chatId: string
+}
+
 export type ApiChat = {
   chatId: string
   name?: string

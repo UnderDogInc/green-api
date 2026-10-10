@@ -11,9 +11,11 @@ import type {
   ChatMessage,
   ContactInfo,
   SendMessageResponse,
+  TelegramAccountLookup,
   ApiChat,
   ApiContactInfo,
 } from '../types'
+import { isTelegramAccountLookup } from '../utils/isTelegramAccountLookup'
 
 const RECEIVE_TIMEOUT_SECONDS = '60'
 
@@ -74,6 +76,15 @@ export async function getContactInfo(
     isVerified: response.isVerified ?? false,
     isScam: response.isScam ?? false,
   }
+}
+
+export async function checkTelegramAccount(
+  credentials: GreenApiCredentials,
+  phoneNumber: number,
+): Promise<TelegramAccountLookup> {
+  const response = await greenApiPost(credentials, 'checkAccount', { phoneNumber })
+
+  return parseApiResponse(response, isTelegramAccountLookup, 'checkAccount')
 }
 
 export async function sendChatMessage(

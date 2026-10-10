@@ -9,7 +9,7 @@ export function ChatListContent({ query }: { query: ReturnType<typeof useChats> 
 
   if (isLoading || (isFetching && !userChats?.length)) {
     return (
-      <div className="grid justify-items-start gap-2.5 px-2 py-5" role="status">
+      <div className="grid justify-items-center gap-2.5 px-2 py-5" role="status">
         <Spinner />
         <Typography.Text color="secondary">
           {isLoading ? 'Загружаем чаты…' : 'Обновляем список чатов…'}
@@ -23,7 +23,12 @@ export function ChatListContent({ query }: { query: ReturnType<typeof useChats> 
       <div className="grid justify-items-start gap-2.5 px-2 py-5">
         <Typography.Title>Не удалось загрузить чаты</Typography.Title>
         <Typography.Text color="secondary">{getApiErrorMessage(error)}</Typography.Text>
-        <Button variant="secondary" loading={isFetching} onClick={() => void refetch()}>
+        <Button
+          variant="secondary"
+          size={'small'}
+          loading={isFetching}
+          onClick={() => void refetch()}
+        >
           Повторить
         </Button>
       </div>

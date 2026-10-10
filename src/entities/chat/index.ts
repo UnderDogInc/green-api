@@ -1,5 +1,6 @@
 export {
   deleteChatNotification,
+  checkTelegramAccount,
   getChatHistory,
   getChats,
   getContactInfo,
@@ -7,7 +8,13 @@ export {
   sendChatMessage,
 } from './api/ChatApi'
 export { CHAT_HISTORY_LIMIT, CHAT_HISTORY_REFETCH_INTERVAL_MS, CHAT_LIST_LIMIT } from './constants'
-export type { Index, ChatMessage, ContactInfo, SendMessageResponse } from './types'
+export type {
+  Index,
+  ChatMessage,
+  ContactInfo,
+  SendMessageResponse,
+  TelegramAccountLookup,
+} from './types'
 export {
   chatHistoryQueryOptions,
   chatKeys,

@@ -17,6 +17,7 @@ export function PhoneChatForm() {
           size="medium"
           onChange={(event) => search.updatePhoneNumber(event.currentTarget.value)}
           placeholder="Найти по номеру"
+          disabled={search.isPending}
           iconBefore={<Search size={16} aria-hidden="true" />}
           aria-invalid={Boolean(search.error)}
           aria-describedby={search.error ? 'chat-phone-error' : undefined}

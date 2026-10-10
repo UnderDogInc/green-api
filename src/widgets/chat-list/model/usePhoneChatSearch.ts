@@ -1,10 +1,26 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { formatPhone, isValidPhoneNumber, normalizePhoneNumber } from '../../../shared/helpers'
+import { checkTelegramAccount } from '../../../entities/chat'
+import { useSessionCredentials } from '../../../entities/session'
+import { getApiErrorMessage } from '../../../shared/api'
 
 export function usePhoneChatSearch() {
   const navigate = useNavigate()
+  const credentials = useSessionCredentials()
+  const accountLookup = useMutation({
+    mutationKey: ['chats', 'lookup-phone'],
+    meta: { errorDisplay: 'inline' },
+    mutationFn: async (phoneNumber: number) => {
+      if (!credentials) {
+        throw new Error('Нет активной сессии Green-API.')
+      }
+
+      return checkTelegramAccount(credentials, phoneNumber)
+    },
+  })
   const [phoneNumber, setPhoneNumber] = useState('')
   const [error, setError] = useState('')
   const inputValue = formatSearchPhone(phoneNumber)
@@ -14,7 +30,7 @@ export function usePhoneChatSearch() {
     setError('')
   }
 
-  function openChat(event: FormEvent<HTMLFormElement>) {
+  async function openChat(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const digits = normalizePhoneNumber(phoneNumber)
 
@@ -24,14 +40,34 @@ export function usePhoneChatSearch() {
       return
     }
 
-    void navigate({
-      to: '/$chatId',
-      params: { chatId: `${digits}@c.us` },
-      search: { direct: true },
-    })
+    setError('')
+
+    try {
+      const account = await accountLookup.mutateAsync(Number(digits))
+
+      if (!account.exist || !account.chatId) {
+        setError('Не удалось найти Telegram-аккаунт по этому номеру.')
+        return
+      }
+
+      void navigate({
+        to: '/$chatId',
+        params: { chatId: account.chatId },
+        search: { direct: false },
+      })
+    } catch (cause) {
+      setError(getApiErrorMessage(cause))
+    }
   }
 
-  return { inputValue, phoneNumber, error, updatePhoneNumber, openChat }
+  return {
+    inputValue,
+    phoneNumber,
+    error,
+    isPending: accountLookup.isPending,
+    updatePhoneNumber,
+    openChat,
+  }
 }
 
 function formatSearchPhone(value: string) {

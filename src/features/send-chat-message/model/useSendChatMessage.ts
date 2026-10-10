@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { CHAT_HISTORY_LIMIT, chatKeys, sendChatMessage } from '../../../entities/chat'
+import {
+  CHAT_HISTORY_LIMIT,
+  CHAT_LIST_LIMIT,
+  chatKeys,
+  sendChatMessage,
+} from '../../../entities/chat'
 import type { ChatMessage } from '../../../entities/chat'
 import { sessionKeys } from '../../../entities/session'
 import type { GreenApiCredentials } from '../../../shared/api'
@@ -39,6 +44,10 @@ export function useSendChatMessage(chatId: string) {
       queryClient.setQueryData<ChatMessage[]>(queryKey, (messages = []) =>
         [...messages, sentMessage].sort((first, second) => first.timestamp - second.timestamp),
       )
+      void queryClient.invalidateQueries({
+        queryKey: chatKeys.list(credentials, CHAT_LIST_LIMIT),
+        exact: true,
+      })
     },
   })
 }
