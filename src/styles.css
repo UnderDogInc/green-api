@@ -1,0 +1,166 @@
+@import 'tailwindcss' source('../');
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@keyframes refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html {
+  color-scheme: light dark;
+}
+* {
+  @apply border-gray-200 dark:border-gray-900;
+}
+body {
+  @apply m-0 min-h-screen bg-gray-50 text-gray-950 dark:bg-gray-900 dark:text-gray-200;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-sidebar {
+  position: fixed;
+  z-index: 20;
+  inset: 0 auto 0 0;
+  display: flex;
+  width: 68px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 8px;
+  border-right: 1px solid var(--divider-primary);
+  background: var(--background-primary);
+  color: var(--text-primary);
+}
+
+.sidebar-avatar {
+  display: grid;
+  width: 40px;
+  aspect-ratio: 1;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--background-secondary);
+  color: var(--icon-primary);
+}
+
+.sidebar-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sidebar-nav {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-icon-button {
+  width: 44px;
+  height: 44px;
+}
+
+.sidebar-icon-button a {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  color: inherit;
+}
+
+.sidebar-link-active {
+  border-radius: 8px;
+  background: var(--background-secondary);
+  color: var(--icon-themed) !important;
+}
+
+.app-header {
+  @apply sticky top-0 z-10 ml-[68px] flex items-center justify-between gap-4 border-b bg-white/90 px-6 py-3 backdrop-blur dark:bg-gray-900/90;
+}
+
+.app-brand {
+  @apply m-0 whitespace-nowrap;
+}
+
+.app-header-actions {
+  @apply flex items-center justify-end;
+}
+
+.app-content {
+  @apply ml-[68px] w-[calc(100%-68px)] px-4 md:px-6;
+}
+
+.centered-layout {
+  @apply relative flex min-h-screen items-center justify-center p-6;
+}
+
+.centered-layout::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/images/background-pattern.png');
+  background-repeat: repeat;
+  opacity: 0.1;
+}
+
+.centered-layout > * {
+  position: relative;
+  z-index: 1;
+}
+
+.dark .centered-layout::before {
+  filter: invert(1);
+  opacity: 0.15;
+}
+
+.auth-panel {
+  @apply grid w-full max-w-lg gap-6 rounded-4xl bg-gray-900 p-6 dark:bg-gray-900;
+}
+
+.auth-back-link {
+  @apply w-fit text-sm font-semibold text-blue-700 dark:text-blue-300;
+}
+
+.auth-form {
+  @apply grid gap-4;
+}
+
+.auth-field {
+  @apply grid gap-2;
+}
+
+.error-panel {
+  @apply grid max-w-lg justify-items-center gap-4 text-center;
+}
+
+@media (max-width: 720px) {
+  .app-sidebar {
+    display: none;
+  }
+
+  .app-header {
+    @apply px-3;
+  }
+
+  .app-content {
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+  }
+}

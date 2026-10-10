@@ -1,0 +1,35 @@
+.layout {
+  display: grid;
+  width: calc(100% + 32px);
+  height: 100dvh;
+  min-height: 0;
+  margin-left: -16px;
+  grid-template-columns: 320px minmax(0, 1fr);
+}
+
+.aside,
+.main {
+  min-width: 0;
+  min-height: 0;
+}
+
+.main {
+  overflow: auto;
+}
+
+@media (max-width: 720px) {
+  .layout {
+    width: 100vw;
+    grid-template-columns: minmax(0, 1fr);
+    height: 100dvh;
+    margin-left: 0;
+  }
+
+  .layout:has([data-chat-window]) .aside {
+    display: none;
+  }
+
+  .layout:not(:has([data-chat-window])) .main {
+    display: none;
+  }
+}
