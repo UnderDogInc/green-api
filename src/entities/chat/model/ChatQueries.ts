@@ -6,8 +6,6 @@ import {
   CHAT_HISTORY_REFETCH_INTERVAL_MS,
   CHAT_LIST_LIMIT,
   STALE_TIME_MS,
-  EMPTY_LIST_REFETCH_INTERVAL_MS,
-  MAX_EMPTY_LIST_FETCHES,
 } from '../constants'
 
 export const chatKeys = {
@@ -29,12 +27,7 @@ export const chatsQueryOptions = (
     queryKey: chatKeys.list(credentials, count),
     queryFn: credentials ? ({ signal }) => getChats(credentials, signal, count) : skipToken,
     staleTime: STALE_TIME_MS,
-    refetchInterval: (query) =>
-      !query.state.error &&
-      query.state.data?.length === 0 &&
-      query.state.dataUpdateCount < MAX_EMPTY_LIST_FETCHES
-        ? EMPTY_LIST_REFETCH_INTERVAL_MS
-        : false,
+    refetchInterval: CHAT_HISTORY_REFETCH_INTERVAL_MS,
     refetchIntervalInBackground: false,
     meta: { errorDisplay: 'inline' },
   })

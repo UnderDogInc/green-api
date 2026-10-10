@@ -2,6 +2,4 @@ export const CHAT_LIST_LIMIT = 100
 export const CHAT_HISTORY_LIMIT = 100
 export const CHAT_HISTORY_REFETCH_INTERVAL_MS = 20_000
 
-export const MAX_EMPTY_LIST_FETCHES = 3
-export const EMPTY_LIST_REFETCH_INTERVAL_MS = 1_000
 export const STALE_TIME_MS = 60_000
