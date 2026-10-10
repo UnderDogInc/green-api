@@ -1,20 +1,21 @@
-.historyViewport::before {
+.historyBackground::before {
   content: '';
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background-image: url('../../../assets/images/background-pattern.png');
   background-repeat: repeat;
-  opacity: 0.1;
+  opacity: 0.2;
 }
 
-.historyViewport > * {
+.historyBackground > * {
   position: relative;
   z-index: 1;
 }
 
-.dark .historyViewport::before {
+.dark .historyBackground::before {
   filter: invert(1);
-  opacity: 0.15;
+  opacity: 0.2;
 }
 
 .incoming::after {

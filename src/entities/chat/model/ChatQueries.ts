@@ -3,6 +3,7 @@ import type { GreenApiCredentials } from '../../../shared/api'
 import { getChatHistory, getChats, getContactInfo } from '../api/ChatApi'
 import {
   CHAT_HISTORY_LIMIT,
+  CHAT_HISTORY_REFETCH_INTERVAL_MS,
   CHAT_LIST_LIMIT,
   STALE_TIME_MS,
   EMPTY_LIST_REFETCH_INTERVAL_MS,
@@ -49,6 +50,8 @@ export const chatHistoryQueryOptions = (
       ? ({ signal }) => getChatHistory(credentials, signal, chatId, count)
       : skipToken,
     staleTime: 15_000,
+    refetchInterval: CHAT_HISTORY_REFETCH_INTERVAL_MS,
+    refetchIntervalInBackground: false,
     meta: { errorDisplay: 'inline' },
   })
 

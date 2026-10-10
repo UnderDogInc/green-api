@@ -20,10 +20,10 @@ export function ChatHistory({
   onScrollToBottom,
 }: Props) {
   return (
-    <div className="relative min-h-0">
+    <div className={`${styles.historyBackground} relative min-h-0`}>
       <div
         ref={historyRef}
-        className={`${styles.historyViewport} relative flex h-full min-h-0 w-full [scrollbar-gutter:stable] flex-col overflow-x-hidden overflow-y-auto overscroll-y-contain`}
+        className="relative z-[1] flex h-full min-h-0 w-full [scrollbar-gutter:stable] flex-col overflow-x-hidden overflow-y-auto overscroll-y-contain"
         onScroll={onScroll}
       >
         <ChatHistoryContent query={query} />
