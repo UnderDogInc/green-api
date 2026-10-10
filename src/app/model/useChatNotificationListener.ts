@@ -1,5 +1,4 @@
 import { skipToken, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ApiError } from '../../shared/api'
 import type { GreenApiCredentials } from '../../shared/api'
 import {
   CHAT_HISTORY_LIMIT,
@@ -23,8 +22,8 @@ export function useChatNotificationListener() {
     enabled: Boolean(credentials),
     staleTime: Infinity,
     gcTime: Infinity,
-    retry: shouldRetryNotificationRequest,
-    retryDelay: (attempt) => Math.min(1_000 * 2 ** attempt, 10_000),
+    retry: true,
+    retryDelay: (attempt) => Math.min(1_000 * 2 ** attempt, 20_000),
   })
 }
 
@@ -91,10 +90,6 @@ function addMessageToHistory(
   }
 
   queryClient.setQueryData<ChatMessage[]>(queryKey, [...messages, message].sort(byTimestamp))
-}
-
-function shouldRetryNotificationRequest(failureCount: number, error: Error) {
-  return failureCount < 3 && (!(error instanceof ApiError) || error.status >= 500)
 }
 
 function byTimestamp(first: ChatMessage, second: ChatMessage) {
